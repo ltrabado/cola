@@ -28,7 +28,7 @@ func (cola *colaEnlazada[T])EstaVacia() bool {
 // "La cola esta vacia".
 func (cola *colaEnlazada[T])VerPrimero() T {
 	if cola.EstaVacia() == true {
-		panic("La pila esta vacia")
+		panic("La cola esta vacia")
 	}
 	return cola.primero.elemento
 }
@@ -50,7 +50,7 @@ func (cola *colaEnlazada[T])Encolar(elem T) {
 // y se devuelve ese valor. Si está vacía, entra en pánico con un mensaje "La cola esta vacia".
 func (cola *colaEnlazada[T])Desencolar() T {
 	if cola.EstaVacia() == true {
-		panic("La pila esta vacia")
+		panic("La cola esta vacia")
 	}
 	elementoDesencolado := cola.primero.elemento
 	cola.primero = cola.primero.siguiente
