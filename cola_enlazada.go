@@ -3,12 +3,12 @@ package cola
 /*Definicion del struct nodo.*/
 type nodo[T any] struct {
 	elemento T
-	siguiente *nodo
+	siguiente *nodo[T]
 }
 /* Definición del struct cola. */
 type colaEnlazada[T any] struct {
-	primero *nodo
-	ultimo *nodo
+	primero *nodo[T]
+	ultimo *nodo[T]
 }
 
 /*Constructor del TAD Cola*/
@@ -30,15 +30,19 @@ func (cola *colaEnlazada[T])VerPrimero() T {
 	if cola.EstaVacia() == true {
 		panic("La pila esta vacia")
 	}
-	return pila.primero.elemento
+	return cola.primero.elemento
 }
 
 // Encolar agrega un nuevo elemento a la cola, al final de la misma.
 func (cola *colaEnlazada[T])Encolar(elem T) {
-	nuevoNodo := new(nodo[T])
-	nuevoNodo.elemento = elem
-	nuevoNodo.siguiente = nil
-	cola.ultimo = nuevoNodo
+	nuevoNodo := &nodo[T]{elemento: elem, siguiente: nil}
+	if cola.EstaVacia() == true {
+		cola.primero = nuevoNodo
+		cola.ultimo = nuevoNodo
+	} else {
+		cola.ultimo.siguiente = nuevoNodo
+		cola.ultimo = nuevoNodo
+	}
 	return
 }
 
@@ -50,5 +54,8 @@ func (cola *colaEnlazada[T])Desencolar() T {
 	}
 	elementoDesencolado := cola.primero.elemento
 	cola.primero = cola.primero.siguiente
+	if cola.primero == nil {
+		cola.ultimo = nil
+	}
 	return elementoDesencolado
 }
